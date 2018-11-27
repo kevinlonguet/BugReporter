@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 use App\Form\UserType;
 use App\Entity\User;
@@ -23,7 +23,7 @@ class SecurityController extends Controller
      */
     public function login(AuthenticationUtils $helper): Response
     {
-        return $this->render('Security/login.html.twig', [
+        return $this->render('front/security/login.html.twig', [
             'error' => $helper->getLastAuthenticationError(),
         ]);
     }
@@ -44,9 +44,11 @@ class SecurityController extends Controller
      */
     public function registerAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
+
         if ($this->getUser() instanceof User) {
-            return $this->redirectToRoute('app_default_home');
+            return $this->redirectToRoute('user_index');
         }
+
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -59,9 +61,11 @@ class SecurityController extends Controller
             $em->flush();
             return $this->redirectToRoute('app_security_login');
         }
+
         return $this->render(
-            'Security/register.html.twig', [
-                'form' => $form->createView()
+            'front/security/register.html.twig', [
+                'form' => $form->createView(),
+                'error' => ''
             ]
         );
     }

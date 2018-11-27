@@ -4,6 +4,6 @@ controllers_back:
     prefix: /admin
 
 controllers_front:
-    resource: ../../src/Controller/Back
+    resource: ../../src/Controller/Front
     type: annotation
     prefix: /
