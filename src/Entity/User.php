@@ -2,14 +2,13 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -19,100 +18,24 @@ class User
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $firstname;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $lastname;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $username;
-
-    /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="json")
+     */
+    private $roles = [];
+
+    /**
+     * @var string The hashed password
+     * @ORM\Column(type="string")
      */
     private $password;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $birthdate;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Team", inversedBy="users")
-     */
-    private $id_team;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Role", inversedBy="users")
-     */
-    private $id_role;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="id_author")
-     */
-    private $tickets;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="id_author")
-     */
-    private $comments;
-
-    public function __construct()
-    {
-        $this->tickets = new ArrayCollection();
-        $this->comments = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getFirstname(): ?string
-    {
-        return $this->firstname;
-    }
-
-    public function setFirstname(?string $firstname): self
-    {
-        $this->firstname = $firstname;
-
-        return $this;
-    }
-
-    public function getLastname(): ?string
-    {
-        return $this->lastname;
-    }
-
-    public function setLastname(?string $lastname): self
-    {
-        $this->lastname = $lastname;
-
-        return $this;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): self
-    {
-        $this->username = $username;
-
-        return $this;
     }
 
     public function getEmail(): ?string
@@ -127,9 +50,41 @@ class User
         return $this;
     }
 
-    public function getPassword(): ?string
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUsername(): string
     {
-        return $this->password;
+        return (string) $this->email;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function getPassword(): string
+    {
+        return (string) $this->password;
     }
 
     public function setPassword(string $password): self
@@ -139,101 +94,20 @@ class User
         return $this;
     }
 
-    public function getBirthdate(): ?\DateTimeInterface
+    /**
+     * @see UserInterface
+     */
+    public function getSalt()
     {
-        return $this->birthdate;
-    }
-
-    public function setBirthdate(?\DateTimeInterface $birthdate): self
-    {
-        $this->birthdate = $birthdate;
-
-        return $this;
-    }
-
-    public function getIdTeam(): ?Team
-    {
-        return $this->id_team;
-    }
-
-    public function setIdTeam(?Team $id_team): self
-    {
-        $this->id_team = $id_team;
-
-        return $this;
-    }
-
-    public function getIdRole(): ?Role
-    {
-        return $this->id_role;
-    }
-
-    public function setIdRole(?Role $id_role): self
-    {
-        $this->id_role = $id_role;
-
-        return $this;
+        // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
     /**
-     * @return Collection|Ticket[]
+     * @see UserInterface
      */
-    public function getTickets(): Collection
+    public function eraseCredentials()
     {
-        return $this->tickets;
-    }
-
-    public function addIdTeamAssign(Ticket $idTeamAssign): self
-    {
-        if (!$this->tickets->contains($idTeamAssign)) {
-            $this->tickets[] = $idTeamAssign;
-            $idTeamAssign->setIdAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeIdTeamAssign(Ticket $idTeamAssign): self
-    {
-        if ($this->tickets->contains($idTeamAssign)) {
-            $this->tickets->removeElement($idTeamAssign);
-            // set the owning side to null (unless already changed)
-            if ($idTeamAssign->getIdAuthor() === $this) {
-                $idTeamAssign->setIdAuthor(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Comment[]
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
-
-    public function addComment(Comment $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setIdAuthor($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment): self
-    {
-        if ($this->comments->contains($comment)) {
-            $this->comments->removeElement($comment);
-            // set the owning side to null (unless already changed)
-            if ($comment->getIdAuthor() === $this) {
-                $comment->setIdAuthor(null);
-            }
-        }
-
-        return $this;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }
