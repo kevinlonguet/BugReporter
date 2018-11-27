@@ -23,20 +23,22 @@ class Team
      */
     private $label;
 
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="id_team")
-     */
-    private $users;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="id_team_assign")
      */
     private $tickets;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="id_team")
+     */
+    private $users;
+
+
     public function __construct()
     {
-        $this->users = new ArrayCollection();
         $this->tickets = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -52,37 +54,6 @@ class Team
     public function setLabel(string $label): self
     {
         $this->label = $label;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|User[]
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): self
-    {
-        if (!$this->users->contains($user)) {
-            $this->users[] = $user;
-            $user->setIdTeam($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->users->contains($user)) {
-            $this->users->removeElement($user);
-            // set the owning side to null (unless already changed)
-            if ($user->getIdTeam() === $this) {
-                $user->setIdTeam(null);
-            }
-        }
 
         return $this;
     }
@@ -112,6 +83,37 @@ class Team
             // set the owning side to null (unless already changed)
             if ($ticket->getIdTeamAssign() === $this) {
                 $ticket->setIdTeamAssign(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->setIdTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            // set the owning side to null (unless already changed)
+            if ($user->getIdTeam() === $this) {
+                $user->setIdTeam(null);
             }
         }
 
