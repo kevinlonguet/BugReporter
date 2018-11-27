@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Back;
 
 use App\Entity\State;
 use App\Form\StateType;
@@ -20,7 +20,7 @@ class StateController extends AbstractController
      */
     public function index(StateRepository $stateRepository): Response
     {
-        return $this->render('state/index.html.twig', ['states' => $stateRepository->findAll()]);
+        return $this->render('back/state/index.html.twig', ['states' => $stateRepository->findAll()]);
     }
 
     /**
@@ -40,7 +40,7 @@ class StateController extends AbstractController
             return $this->redirectToRoute('state_index');
         }
 
-        return $this->render('state/new.html.twig', [
+        return $this->render('back/state/new.html.twig', [
             'state' => $state,
             'form' => $form->createView(),
         ]);
@@ -51,7 +51,7 @@ class StateController extends AbstractController
      */
     public function show(State $state): Response
     {
-        return $this->render('state/show.html.twig', ['state' => $state]);
+        return $this->render('back/state/show.html.twig', ['state' => $state]);
     }
 
     /**
@@ -68,7 +68,7 @@ class StateController extends AbstractController
             return $this->redirectToRoute('state_index', ['id' => $state->getId()]);
         }
 
-        return $this->render('state/edit.html.twig', [
+        return $this->render('back/state/edit.html.twig', [
             'state' => $state,
             'form' => $form->createView(),
         ]);

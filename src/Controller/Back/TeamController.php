@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Back;
 
 use App\Entity\Team;
 use App\Form\TeamType;
@@ -20,7 +20,7 @@ class TeamController extends AbstractController
      */
     public function index(TeamRepository $teamRepository): Response
     {
-        return $this->render('team/index.html.twig', ['teams' => $teamRepository->findAll()]);
+        return $this->render('back/team/index.html.twig', ['teams' => $teamRepository->findAll()]);
     }
 
     /**
@@ -40,7 +40,7 @@ class TeamController extends AbstractController
             return $this->redirectToRoute('team_index');
         }
 
-        return $this->render('team/new.html.twig', [
+        return $this->render('back/team/new.html.twig', [
             'team' => $team,
             'form' => $form->createView(),
         ]);
@@ -51,7 +51,7 @@ class TeamController extends AbstractController
      */
     public function show(Team $team): Response
     {
-        return $this->render('team/show.html.twig', ['team' => $team]);
+        return $this->render('back/team/show.html.twig', ['team' => $team]);
     }
 
     /**
@@ -68,7 +68,7 @@ class TeamController extends AbstractController
             return $this->redirectToRoute('team_index', ['id' => $team->getId()]);
         }
 
-        return $this->render('team/edit.html.twig', [
+        return $this->render('back/team/edit.html.twig', [
             'team' => $team,
             'form' => $form->createView(),
         ]);

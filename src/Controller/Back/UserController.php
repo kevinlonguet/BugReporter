@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Back;
 
 use App\Entity\User;
 use App\Form\UserType;
@@ -20,7 +20,30 @@ class UserController extends AbstractController
      */
     public function index(UserRepository $userRepository): Response
     {
-        return $this->render('user/index.html.twig', ['users' => $userRepository->findAll()]);
+        return $this->render('back/user/index.html.twig', ['users' => $userRepository->findAll()]);
+    }
+
+    /**
+     * @Route("/new", name="user_new", methods="GET|POST")
+     */
+    public function new(Request $request): Response
+    {
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirectToRoute('user_index');
+        }
+
+        return $this->render('back/user/new.html.twig', [
+            'user' => $user,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -28,7 +51,7 @@ class UserController extends AbstractController
      */
     public function show(User $user): Response
     {
-        return $this->render('user/show.html.twig', ['user' => $user]);
+        return $this->render('back/user/show.html.twig', ['user' => $user]);
     }
 
     /**
@@ -45,7 +68,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_index', ['id' => $user->getId()]);
         }
 
-        return $this->render('user/edit.html.twig', [
+        return $this->render('back/user/edit.html.twig', [
             'user' => $user,
             'form' => $form->createView(),
         ]);

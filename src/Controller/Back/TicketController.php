@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Back;
 
 use App\Entity\Ticket;
 use App\Form\TicketType;
@@ -20,7 +20,7 @@ class TicketController extends AbstractController
      */
     public function index(TicketRepository $ticketRepository): Response
     {
-        return $this->render('ticket/index.html.twig', ['tickets' => $ticketRepository->findAll()]);
+        return $this->render('back/ticket/index.html.twig', ['tickets' => $ticketRepository->findAll()]);
     }
 
     /**
@@ -40,7 +40,7 @@ class TicketController extends AbstractController
             return $this->redirectToRoute('ticket_index');
         }
 
-        return $this->render('ticket/new.html.twig', [
+        return $this->render('back/ticket/new.html.twig', [
             'ticket' => $ticket,
             'form' => $form->createView(),
         ]);
@@ -51,7 +51,7 @@ class TicketController extends AbstractController
      */
     public function show(Ticket $ticket): Response
     {
-        return $this->render('ticket/show.html.twig', ['ticket' => $ticket]);
+        return $this->render('back/ticket/show.html.twig', ['ticket' => $ticket]);
     }
 
     /**
@@ -68,7 +68,7 @@ class TicketController extends AbstractController
             return $this->redirectToRoute('ticket_index', ['id' => $ticket->getId()]);
         }
 
-        return $this->render('ticket/edit.html.twig', [
+        return $this->render('back/ticket/edit.html.twig', [
             'ticket' => $ticket,
             'form' => $form->createView(),
         ]);
