@@ -19,6 +19,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+
      */
     private $email;
 
@@ -32,7 +33,6 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
-
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -117,9 +117,6 @@ class User implements UserInterface
         // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
@@ -134,7 +131,6 @@ class User implements UserInterface
     public function setFirstname(?string $firstname): self
     {
         $this->firstname = $firstname;
-
         return $this;
     }
 
