@@ -2,7 +2,7 @@ security:
     role_hierarchy:
         ROLE_DEV:     ROLE_USER
         ROLE_USER:      ROLE_USER
-        ROLE_ADMIN: [ROLE_USER, ROLE_CLIENT]
+        ROLE_ADMIN: [ROLE_USER, ROLE_DEV]
 
     encoders:
         App\Entity\User:

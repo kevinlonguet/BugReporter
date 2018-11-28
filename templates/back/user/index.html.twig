@@ -11,7 +11,6 @@
                 <th>Id</th>
                 <th>Email</th>
                 <th>Roles</th>
-                <th>Password</th>
                 <th>Firstname</th>
                 <th>Lastname</th>
                 <th>actions</th>
@@ -22,8 +21,11 @@
             <tr>
                 <td>{{ user.id }}</td>
                 <td>{{ user.email }}</td>
-                <td>{{ user.roles }}</td>
-                <td>{{ user.password }}</td>
+                <td>
+                    {% for role in user.roles %}
+                        <li>{{ role }}</li>
+                    {% endfor %}
+                </td>
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.lastname }}</td>
                 <td>

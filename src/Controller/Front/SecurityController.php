@@ -15,11 +15,14 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
  * Class UserController
  * @package App\Controller
  * @Route(name="app_security_")
- */ 
+ */
 class SecurityController extends Controller
 {
     /**
      * @Route("/login", name="login")
+     *
+     * @param AuthenticationUtils $helper
+     * @return Response
      */
     public function login(AuthenticationUtils $helper): Response
     {
@@ -27,6 +30,7 @@ class SecurityController extends Controller
             'error' => $helper->getLastAuthenticationError(),
         ]);
     }
+
     /**
      * @Route("/logout", name="logout")
      * @throws \Exception
@@ -35,6 +39,7 @@ class SecurityController extends Controller
     {
         throw new \Exception('This should never be reached!');
     }
+
     /**
      * @Route("/register", name="registration")
      * @param Request $request
