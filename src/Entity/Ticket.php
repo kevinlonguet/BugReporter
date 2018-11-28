@@ -2,15 +2,21 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\TicketRepository")
  */
 class Ticket
 {
+    use Traits\SoftDeletedTrait;
+    use Traits\TimestampableTrait;
+    use Traits\SortablePositionTrait;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -20,6 +26,7 @@ class Ticket
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $title;
 
@@ -30,18 +37,20 @@ class Ticket
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
      */
     private $content;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", options={"default" : 0})
      */
     private $note;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @Gedmo\Slug(fields={"title", "id"})
+     * @ORM\Column(length=128, unique=true)
      */
-    private $date;
+    private $slug;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Tag", inversedBy="tickets")
@@ -68,21 +77,34 @@ class Ticket
      */
     private $comments;
 
+    /**
+     * Ticket constructor.
+     */
     public function __construct()
     {
         $this->comments = new ArrayCollection();
     }
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return null|string
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
+    /**
+     * @param string $title
+     * @return Ticket
+     */
     public function setTitle(string $title): self
     {
         $this->title = $title;
@@ -90,11 +112,18 @@ class Ticket
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getDescription(): ?string
     {
         return $this->description;
     }
 
+    /**
+     * @param null|string $description
+     * @return Ticket
+     */
     public function setDescription(?string $description): self
     {
         $this->description = $description;
@@ -102,11 +131,18 @@ class Ticket
         return $this;
     }
 
+    /**
+     * @return null|string
+     */
     public function getContent(): ?string
     {
         return $this->content;
     }
 
+    /**
+     * @param string $content
+     * @return Ticket
+     */
     public function setContent(string $content): self
     {
         $this->content = $content;
@@ -114,11 +150,18 @@ class Ticket
         return $this;
     }
 
+    /**
+     * @return int|null
+     */
     public function getNote(): ?int
     {
         return $this->note;
     }
 
+    /**
+     * @param int $note
+     * @return Ticket
+     */
     public function setNote(int $note): self
     {
         $this->note = $note;
@@ -126,23 +169,36 @@ class Ticket
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getSlug()
     {
-        return $this->date;
+        return $this->slug;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    /**
+     * @param mixed $slug
+     * @return Ticket
+     */
+    public function setSlug($slug)
     {
-        $this->date = $date;
-
+        $this->slug = $slug;
         return $this;
     }
 
+    /**
+     * @return Tag|null
+     */
     public function getIdTag(): ?Tag
     {
         return $this->id_tag;
     }
 
+    /**
+     * @param Tag|null $id_tag
+     * @return Ticket
+     */
     public function setIdTag(?Tag $id_tag): self
     {
         $this->id_tag = $id_tag;
@@ -150,11 +206,18 @@ class Ticket
         return $this;
     }
 
+    /**
+     * @return State|null
+     */
     public function getIdState(): ?State
     {
         return $this->id_state;
     }
 
+    /**
+     * @param State|null $id_state
+     * @return Ticket
+     */
     public function setIdState(?State $id_state): self
     {
         $this->id_state = $id_state;
@@ -162,11 +225,18 @@ class Ticket
         return $this;
     }
 
+    /**
+     * @return User|null
+     */
     public function getIdAuthor(): ?User
     {
         return $this->id_author;
     }
 
+    /**
+     * @param User|null $id_author
+     * @return Ticket
+     */
     public function setIdAuthor(?User $id_author): self
     {
         $this->id_author = $id_author;
@@ -174,11 +244,18 @@ class Ticket
         return $this;
     }
 
+    /**
+     * @return Team|null
+     */
     public function getIdTeamAssign(): ?Team
     {
         return $this->id_team_assign;
     }
 
+    /**
+     * @param Team|null $id_team_assign
+     * @return Ticket
+     */
     public function setIdTeamAssign(?Team $id_team_assign): self
     {
         $this->id_team_assign = $id_team_assign;
@@ -194,6 +271,10 @@ class Ticket
         return $this->comments;
     }
 
+    /**
+     * @param Comment $comment
+     * @return Ticket
+     */
     public function addComment(Comment $comment): self
     {
         if (!$this->comments->contains($comment)) {
@@ -204,6 +285,10 @@ class Ticket
         return $this;
     }
 
+    /**
+     * @param Comment $comment
+     * @return Ticket
+     */
     public function removeComment(Comment $comment): self
     {
         if ($this->comments->contains($comment)) {
