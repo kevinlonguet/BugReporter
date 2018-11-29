@@ -2,8 +2,14 @@
 
 namespace App\Form;
 
+use App\Entity\State;
+use App\Entity\Team;
 use App\Entity\Ticket;
+use App\Entity\Tag;
+use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,16 +18,46 @@ class TicketType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('description')
-            ->add('content')
-            ->add('note')
-            ->add('date')
-            ->add('id_tag')
-            ->add('id_state')
-            ->add('id_author')
-            ->add('id_team_assign')
-        ;
+            ->add('title', TextType::class, [
+                'label' => 'Titre'
+            ])
+            ->add('description', TextType::class, [
+                'label' => 'Description'
+            ])
+            ->add('content', TextType::class, [
+                'label' => 'Contenu'
+            ])
+            ->add('note', TextType::class, [
+                'label' => 'Titre'
+            ])
+            ->add('id_tag', EntityType::class, [
+                'label' => 'Type',
+                'class' => Tag::class,
+                'choice_label' => 'label',
+                'multiple' => false,
+                'required' => false,
+            ])
+            ->add('id_state', EntityType::class, [
+                'label' => 'Etat',
+                'class' => State::class,
+                'choice_label' => 'label',
+                'multiple' => false,
+                'required' => false,
+            ])
+            ->add('id_author', EntityType::class, [
+                'label' => 'Auteur',
+                'class' => User::class,
+                'choice_label' => 'email',
+                'multiple' => false,
+                'required' => false,
+            ])
+            ->add('id_team_assign', EntityType::class, [
+                'label' => 'Team',
+                'class' => Team::class,
+                'choice_label' => 'name',
+                'multiple' => false,
+                'required' => false,
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

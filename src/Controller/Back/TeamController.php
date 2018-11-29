@@ -79,7 +79,7 @@ class TeamController extends AbstractController
      */
     public function delete(Request $request, Team $team): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$team->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $team->getId(), $request->request->get('_token'))) {
             $em = $this->getDoctrine()->getManager();
             $em->remove($team);
             $em->flush();
