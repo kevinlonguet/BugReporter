@@ -9,6 +9,7 @@ use App\Entity\Tag;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -24,7 +25,7 @@ class TicketType extends AbstractType
             ->add('description', TextType::class, [
                 'label' => 'Description'
             ])
-            ->add('content', TextType::class, [
+            ->add('content', TextareaType::class, [
                 'label' => 'Contenu'
             ])
             ->add('note', TextType::class, [
@@ -54,7 +55,7 @@ class TicketType extends AbstractType
             ->add('id_team_assign', EntityType::class, [
                 'label' => 'Team',
                 'class' => Team::class,
-                'choice_label' => 'name',
+                'choice_label' => 'label',
                 'multiple' => false,
                 'required' => false,
             ]);
