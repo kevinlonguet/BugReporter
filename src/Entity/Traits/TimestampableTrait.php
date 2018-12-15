@@ -18,7 +18,7 @@ Trait TimestampableTrait
      * @var \DateTime $created
      *
      * @Gedmo\Timestampable(on="create")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $created;
 
@@ -26,7 +26,8 @@ Trait TimestampableTrait
      * @var \DateTime $updated
      *
      * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
+     *
      */
     private $updated;
 
@@ -42,7 +43,7 @@ Trait TimestampableTrait
      * @var string $createdBy
      *
      * @Gedmo\Blameable(on="create")
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $createdBy;
 
@@ -50,7 +51,7 @@ Trait TimestampableTrait
      * @var string $updatedBy
      *
      * @Gedmo\Blameable(on="update")
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $updatedBy;
 

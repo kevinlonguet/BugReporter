@@ -16,12 +16,12 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
 
-class CommentFixtures extends Fixture //implements DependentFixtureInterface
+class CommentFixtures extends Fixture implements DependentFixtureInterface
 {
 
     public function load(ObjectManager $manager)
     {
-        /*$faker = Factory::create();
+        $faker = Factory::create();
 
         // Recuperation des tickets
         $em = $manager->getRepository(Ticket::class);
@@ -41,16 +41,16 @@ class CommentFixtures extends Fixture //implements DependentFixtureInterface
         }
 
         $manager->flush();
-        */
+
 
     }
 
-    /*public function getDependencies()
+    public function getDependencies()
     {
         return array(
-            Ticket::class,
-            User::class
+            TicketFixtures::class,
+            UserFixtures::class
         );
-    }*/
+    }
 
 }

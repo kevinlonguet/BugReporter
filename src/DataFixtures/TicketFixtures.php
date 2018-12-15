@@ -18,13 +18,13 @@ use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Faker\Factory;
 
-class TicketFixtures extends Fixture //implements DependentFixtureInterface
+class TicketFixtures extends Fixture implements DependentFixtureInterface
 {
 
     public function load(ObjectManager $manager)
     {
 
-        /*$faker = Factory::create();
+        $faker = Factory::create();
 
         // Recuperation des users
         $em = $manager->getRepository("App:User");
@@ -54,21 +54,24 @@ class TicketFixtures extends Fixture //implements DependentFixtureInterface
                 ->setIdTag($tags[(array_rand($tags))])
                 ->setIdTeamAssign($teams[(array_rand($teams))]);
 
+            $ticket->setPosition(0);
+            $ticket->setDeleted(false);
+
             $manager->persist($ticket);
         }
 
-        $manager->flush();*/
+        $manager->flush();
 
     }
 
-    /*public function getDependencies()
+    public function getDependencies()
     {
         return array(
-            User::class,
-            State::class,
-            Tag::class,
-            Team::class
+            UserFixtures::class,
+            StateFixtures::class,
+            TagFixtures::class,
+            TeamFixtures::class
         );
-    }*/
+    }
 
 }
