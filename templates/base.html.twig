@@ -35,9 +35,10 @@
     </nav>
 </header>
 
-<div class="container-fluid">
-    {% block body %}{% endblock %}
-</div>
+<div class="container">{% block body %}{% endblock %}</div>
 {% block javascripts %}{% endblock %}
+<footer class="container border-top mt-5 text-center">{% block footer %}<span
+            class="text-secondary">BugReporter - ESGI</span>{% endblock %}</footer>
+
 </body>
 </html>
