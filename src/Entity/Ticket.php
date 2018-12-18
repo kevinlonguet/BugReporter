@@ -48,7 +48,7 @@ class Ticket
     private $note;
 
     /**
-     * @Gedmo\Slug(fields={"title", "id"})
+     * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(length=128, unique=true)
      */
     private $slug;

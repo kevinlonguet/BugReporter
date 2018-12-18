@@ -5,17 +5,16 @@
 {% block body %}
     <h1>Ticket index</h1>
 
-    <table class="table">
+    <table class="table table-bordered table-hover">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Content</th>
-                <th>Note</th>
-                <th>Date</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Content</th>
+            <th>Note</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for ticket in tickets %}
@@ -25,7 +24,6 @@
                 <td>{{ ticket.description }}</td>
                 <td>{{ ticket.content }}</td>
                 <td>{{ ticket.note }}</td>
-                <td>{{ ticket.date ? ticket.date|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('ticket_show', {'id': ticket.id}) }}">show</a>
                     <a href="{{ path('ticket_edit', {'id': ticket.id}) }}">edit</a>

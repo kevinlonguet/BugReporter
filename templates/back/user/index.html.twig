@@ -5,22 +5,25 @@
 {% block body %}
     <h1>User index</h1>
 
-    <table class="table">
+    <table class="table table-bordered table-hover">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Email</th>
+            <th>Roles</th>
+            <th>Firstname</th>
+            <th>Lastname</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
+                <td>{{ user.email }}
+                    {% if user.idTeam is not null %}<span
+                            class="badge badge-primary ml-2">{{ user.idTeam.label }}</span>{% endif %}
+                </td>
                 <td>
                     {% for role in user.roles %}
                         <li>{{ role }}</li>

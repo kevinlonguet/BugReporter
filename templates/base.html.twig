@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Bug Reporter{% endblock %}</title>
-    {# -- Lien JS -- #}
     {% block head_js %}
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
                 integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -16,7 +15,6 @@
                 integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
                 crossorigin="anonymous"></script>
     {% endblock %}
-    {# -- Lien CSS -- #}
     {% block head_css %}
         <link rel="stylesheet"
               href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -25,7 +23,6 @@
     {% endblock %}
 </head>
 <body>
-
 <header>
     <nav class="navbar navbar-dark bg-primary mb-5">
         <div class="container">
@@ -34,11 +31,14 @@
         </div>
     </nav>
 </header>
-
-<div class="container">{% block body %}{% endblock %}</div>
+<div class="container">
+    {% block body %}{% endblock %}
+</div>
 {% block javascripts %}{% endblock %}
-<footer class="container border-top mt-5 text-center">{% block footer %}<span
-            class="text-secondary">BugReporter - ESGI</span>{% endblock %}</footer>
-
+<footer class="container border-top mt-5 text-center">
+    {% block footer %}
+        <span class="text-secondary">BugReporter - ESGI</span>
+    {% endblock %}
+</footer>
 </body>
 </html>
